@@ -31,14 +31,18 @@ class Editor
             switch (chr) {
                 case '(':
                     if (inBrackets) {
-                        WriteError("Already in coordinate definition, cannot declare another coordinate.",i);
+                        WriteError("Already in cell definition, cannot declare another cell.",i);
                         return true;
                     }
                     inBrackets = true;
                     break;
                 case ')':
                     if (!inBrackets) {
-                        WriteError("Cannot end non-existant coordinate definition.",i);
+                        WriteError("Cannot end non-existant cell definition.",i);
+                        return true;
+                    }
+                    if (currentCoordinate != 1) {
+                        WriteError($"Missing coordinate(s).", i);
                         return true;
                     }
                     inBrackets = false;
@@ -46,6 +50,7 @@ class Editor
                     grid.SetAliveCell(storeX, storeY, true);
                     break;
                 case ',':
+                    currentCoordinate++;
                     if (!inBrackets) {
                         WriteError("Not in coordinate definition.",i);
                         return true;
@@ -54,7 +59,7 @@ class Editor
                         WriteError("Comma inserted when there are already coordinates defined.",i);
                         return true;
                     }
-                    currentCoordinate++;
+                    
                     break;
                 
                 default:
@@ -86,6 +91,11 @@ class Editor
                     break;
             }
             stringPos++; 
+        }
+
+        if (inBrackets) {
+            WriteError("Cell definition not terminated",constructionString.Length);
+            return true;
         }
         return false;
     }
