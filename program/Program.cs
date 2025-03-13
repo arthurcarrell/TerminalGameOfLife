@@ -25,7 +25,7 @@ namespace GameOfLife
                 Console.Clear();
                 grid.DisplayGrid();
                 grid.DoGridUpdate();
-                Console.ReadKey();
+                Thread.Sleep(500);
                 
             }
         }

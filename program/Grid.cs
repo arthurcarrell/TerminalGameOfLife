@@ -4,8 +4,8 @@ public class Grid
 {
 
     /* VARIABLES */
-    private int WIDTH = 20;
-    private int HEIGHT = 20;
+    private int WIDTH = 50;
+    private int HEIGHT = 30;
     private Cell[,] cellGrid;
 
     /* GETTERS */
@@ -14,7 +14,7 @@ public class Grid
     public int GetHeight() { return HEIGHT; }
 
     /* METHODS */
-    private void DisplayCell(Cell cell) {
+    private static void DisplayCell(Cell cell) {
         if (cell.GetAlive()) {
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("■");
@@ -25,10 +25,16 @@ public class Grid
             Console.ResetColor();
         }
     }
-    private bool IsInBounds(int coordinate, int limit) {
-        if (coordinate < 0) { return false; }
-        if (coordinate > limit) { return false; }
-        
+    private bool IsInBounds(int x, int y) {
+        //Console.WriteLine($"x: {x}, y: {y}");
+        if (x < 0 || y < 0) {
+            return false;
+        } 
+
+        if (x >= WIDTH || y >= HEIGHT) {
+            return false;
+        }
+
         return true;
     } 
     public int GetNeighborAmount(Cell cell) {
@@ -37,14 +43,11 @@ public class Grid
         for (int y=0; y < 3; y++) {
             for (int x=0; x < 3; x++) {
 
-                bool isAllowed = true;
-
-                if (isAllowed) { isAllowed = IsInBounds(x, WIDTH); }
-                if (isAllowed) { isAllowed = IsInBounds(y, HEIGHT); }
+                bool isAllowed = IsInBounds(cell.GetX()+x-1, cell.GetY()+y-1);
 
                 if (isAllowed) {
                     // check if its alive
-                    if (cellGrid[x-1,y-1].GetAlive()) {
+                    if (cellGrid[cell.GetX()+x-1,cell.GetY()+y-1].GetAlive()) {
                         amountOfNeighbors++;
                     }
                 }
