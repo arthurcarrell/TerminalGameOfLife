@@ -64,6 +64,8 @@ public class Grid
         // do live cell stuff
         if (cell.GetAlive()) {
 
+            Console.WriteLine("ALIVE CELL, neighborAmount: " + neighborAmount);
+
             // <2 neighbors
             if (neighborAmount < 2) {
                 cell.SetAlive(false);

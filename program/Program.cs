@@ -47,8 +47,8 @@ namespace GameOfLife
             // loop:
             while (true) {
                 Console.Clear();
-                grid.DisplayGrid();
                 grid.DoGridUpdate();
+                grid.DisplayGrid();
                 //Thread.Sleep(500);
                 Console.ReadLine();
             }
